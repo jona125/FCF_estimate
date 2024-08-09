@@ -1,3 +1,8 @@
+install packages
+
+pip install -r requirement.txt
+source FCF/bin/activate
+
 usage 
 
 python fair_price_calculator.py -t AAPL
