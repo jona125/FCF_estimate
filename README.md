@@ -2,9 +2,7 @@ install packages
 
 ```
 pip install -r requirement.txt
-```
 
-```
 source FCF/bin/activate
 ```
 usage 
