@@ -24,4 +24,4 @@ python valuation_calculator.py -t AAPL -i 0.03 -g 0.08 -d 0.09 -y 10
 python3 stock_screening.py -i sp500
 ```
 
-Replace sp500 with nasdaq100, dowjones, or russell1000 as needed.
+Replace sp500 with nasdaq100, dowjones, russell1000 or taiwan50 as needed.
