@@ -1,6 +1,7 @@
 import pandas as pd
 import subprocess
 import numpy as np
+import re
 import argparse
 
 def get_tickers(index):
@@ -8,11 +9,12 @@ def get_tickers(index):
         'sp500': "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies",
         'nasdaq100': "https://en.wikipedia.org/wiki/NASDAQ-100",
         'dowjones': "https://en.wikipedia.org/wiki/Dow_Jones_Industrial_Average",
-        'russell1000': "https://en.wikipedia.org/wiki/Russell_1000_Index"
+        'russell1000': "https://en.wikipedia.org/wiki/Russell_1000_Index",
+        'taiwan50': "https://en.wikipedia.org/wiki/Template:FTSE_TWSE_Taiwan_50"
     }
     
     if index not in urls:
-        raise ValueError("Invalid index selected. Choose from: sp500, nasdaq100, dowjones, russell1000.")
+        raise ValueError("Invalid index selected. Choose from: sp500, nasdaq100, dowjones, russell1000, taiwan50.")
     
     tables = pd.read_html(urls[index])
     if index == 'sp500':
@@ -23,6 +25,14 @@ def get_tickers(index):
         return tables[1]['Symbol'].tolist()
     elif index == 'russell1000':
         return tables[2]['Symbol'].tolist()
+    elif index == 'taiwan50':
+       # Parse the Taiwan 50 tickers
+        tickers = []
+        for cols in tables[0]:
+            for col in tables[0][cols]:
+                matches = re.findall(r'TWSE:\s?(\d+)', col)
+                tickers.extend([f"{match}.TW" for match in matches]) 
+        return tickers 
 
 def calculate_fair_price(ticker, inflation_rate=0.03, growth_rate=0.05, discount_rate=0.08, years=10):
     try:
@@ -95,8 +105,8 @@ def find_above_threshold_stocks(results):
 def main():
     parser = argparse.ArgumentParser(description="Stock screening for various indices.")
     parser.add_argument('-i', '--index', type=str, required=True,
-                        choices=['sp500', 'nasdaq100', 'dowjones', 'russell1000'],
-                        help='Index to screen: sp500, nasdaq100, dowjones, or russell1000')
+                        choices=['sp500', 'nasdaq100', 'dowjones', 'russell1000', 'taiwan50'],
+                        help='Index to screen: sp500, nasdaq100, dowjones, russell1000, or taiwan50')
 
     args = parser.parse_args()
     

@@ -36,7 +36,7 @@ def get_fcf(ticker):
 
 def get_current_price(ticker):
     stock = yf.Ticker(ticker)
-    current_price = stock.history(period="1d")['Close'].iloc[-1]
+    current_price = stock.history(period="5d")['Close'].iloc[-1]
     return current_price
 
 def calculate_fair_price(ticker, inflation_rate=0.03, growth_rate=0.05, discount_rate=0.08, years=10):
