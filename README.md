@@ -1,9 +1,9 @@
 install packages
 
 ```
-pip install -r requirements.txt
 python -m venv FCF
 source FCF/bin/activate
+pip install -r requirements.txt
 ```
 
 usage 
